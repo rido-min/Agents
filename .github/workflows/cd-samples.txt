@@ -1,4 +1,4 @@
-name: ci-samples
+name: cd-samples
 
 on:
   workflow_dispatch:
@@ -45,7 +45,7 @@ jobs:
         run: |
           npm install
           npm run docker
-          docker tag node-echo-bot:latest botagents.azurecr.io/node-echo-bot:latest
+          docker tag node-echo-bot:1.0.0 botagents.azurecr.io/node-echo-bot:latest
           docker push botagents.azurecr.io/node-echo-bot:latest
 
       - name: Build docker image Node Cards bot
@@ -53,7 +53,7 @@ jobs:
         run: |
           npm install
           npm run docker
-          docker tag node-cards-bot:latest botagents.azurecr.io/node-cards-bot:latest
+          docker tag node-cards-bot:1.0.0 botagents.azurecr.io/node-cards-bot:latest
           docker push botagents.azurecr.io/node-cards-bot:latest
 
       - name: Build docker iamge Node Skill bot

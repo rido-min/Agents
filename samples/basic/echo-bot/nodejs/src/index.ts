@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import express, { Response } from 'express'
-import rateLimit from 'express-rate-limit'
 import { Request, CloudAdapter, authorizeJWT, AuthConfiguration, loadAuthConfigFromEnv } from '@microsoft/agents-bot-hosting'
+import { version } from '@microsoft/agents-bot-hosting/package.json'
 import { EchoBot } from './bot'
 
 const authConfig: AuthConfiguration = loadAuthConfigFromEnv()
@@ -13,7 +13,6 @@ const myBot = new EchoBot()
 
 const app = express()
 
-app.use(rateLimit({ validate: { xForwardedForHeader: false } }))
 app.use(express.json())
 app.use(authorizeJWT(authConfig))
 
@@ -23,5 +22,5 @@ app.post('/api/messages', async (req: Request, res: Response) => {
 
 const port = process.env.PORT || 3978
 app.listen(port, () => {
-  console.log(`\nServer listening to port ${port} for appId ${authConfig.clientId} debug ${process.env.DEBUG}`)
-})
+  console.log(`\nEcho Bot listening on ::${port} \n appId ${authConfig.clientId} \n debug ${process.env.DEBUG} \n sdk version ${version}`)
+}).on('error', console.error)
