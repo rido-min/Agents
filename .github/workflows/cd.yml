@@ -81,8 +81,8 @@ jobs:
         run: |
           npm install
           npm run docker
-          docker tag node-skill-bot:1.0.0 ghcr.io/rido-min/node-skill-bot:latest
-          docker push ghcr.io/rido-min/node-skill-bot:latest
-          docker tag node-skill-bot:1.0.0 botagents.azurecr.io/node-skill-bot:latest
-          docker push botagents.azurecr.io/node-skill-bot:latest
+          docker tag node-echo-skill:1.0.0 ghcr.io/rido-min/node-echo-skill:latest
+          docker push ghcr.io/rido-min/node-echo-skill:latest
+          docker tag node-echo-skill:1.0.0 botagents.azurecr.io/node-echo-skill:latest
+          docker push botagents.azurecr.io/node-echo-skill:latest
 
