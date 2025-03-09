@@ -19,12 +19,19 @@ jobs:
         with:
           node-version: 22
       
-      - name: Login to Docker Hub
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to ACR
+        uses: docker/login-action@v3
+        with:
+          registry: botagents.azurecr.io
+          username: push-rido-min 
+          password: ${{ secrets.BOTAGENTS_TOKEN }}
 
       - name: Install Node dependencies
         run: npm install
@@ -46,6 +53,8 @@ jobs:
           dotnet publish /t:PublishContainer /p:ContainerRepository=dotnet-echo-bot --os linux --arch x64
           docker tag dotnet-echo-bot:latest ghcr.io/rido-min/dotnet-echo-bot:latest
           docker push ghcr.io/rido-min/dotnet-echo-bot:latest
+          docker tag dotnet-echo-bot:latest botagents.azurecr.io/dotnet-echo-bot:latest
+          docker push botagents.azurecr.io/dotnet-echo-bot:latest
 
       - name: Build docker image Node Echo bot
         working-directory: ./samples/basic/echo-bot/nodejs/
@@ -54,6 +63,8 @@ jobs:
           npm run docker
           docker tag node-echo-bot:1.0.0 ghcr.io/rido-min/node-echo-bot:latest
           docker push ghcr.io/rido-min/node-echo-bot:latest
+          docker tag node-echo-bot:1.0.0 botagents.azurecr.io/node-echo-bot:latest
+          docker push botagents.azurecr.io/node-echo-bot:latest
 
       - name: Build docker image Node Cards bot
         working-directory: ./samples/basic/cards/nodejs/
@@ -62,10 +73,16 @@ jobs:
           npm run docker
           docker tag node-cards-bot:1.0.0 ghcr.io/rido-min/node-cards-bot:latest
           docker push ghcr.io/rido-min/node-cards-bot:latest
+          docker tag node-cards-bot:1.0.0 botagents.azurecr.io/node-cards-bot:latest
+          docker push botagents.azurecr.io/node-cards-bot:latest
 
       - name: Build docker iamge Node Skill bot
         working-directory: ./samples/complex/copilotstudio-skill/nodejs/
         run: |
           npm install
           npm run docker
+          docker tag node-skill-bot:1.0.0 ghcr.io/rido-min/node-skill-bot:latest
+          docker push ghcr.io/rido-min/node-skill-bot:latest
+          docker tag node-skill-bot:1.0.0 botagents.azurecr.io/node-skill-bot:latest
+          docker push botagents.azurecr.io/node-skill-bot:latest
 
